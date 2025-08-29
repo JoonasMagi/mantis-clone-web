@@ -130,8 +130,9 @@ function Labels() {
                 <input
                   type="color"
                   id="color"
-                  {...register('color')}
-                  defaultValue={generateRandomColor()}
+                  {...register('color', {
+                    value: generateRandomColor()
+                  })}
                 />
                 <button 
                   type="button"
@@ -226,11 +227,16 @@ function Labels() {
 }
 
 function EditLabelForm({ label, onSave, onCancel }) {
+  // Ensure color is in valid format for HTML color input
+  const validColor = label.color && /^#[0-9A-Fa-f]{6}$/.test(label.color)
+    ? label.color
+    : '#3498db';
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       name: label.name,
       description: label.description || '',
-      color: label.color
+      color: validColor
     }
   });
 

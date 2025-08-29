@@ -136,6 +136,14 @@ function Milestones() {
               />
             </div>
 
+            <div className="form-group">
+              <label htmlFor="status">Status</label>
+              <select id="status" {...register('status')}>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+
             <div className="form-actions">
               <button 
                 type="button" 
@@ -181,10 +189,10 @@ function Milestones() {
                     <div className="milestone-header">
                       <h3>{milestone.title}</h3>
                       <div className="milestone-meta">
-                        <span className={`due-date ${isOverdue(milestone.dueDate) ? 'overdue' : ''}`}>
-                          {formatDate(milestone.dueDate)}
+                        <span className={`due-date ${isOverdue(milestone.due_date) ? 'overdue' : ''}`}>
+                          {formatDate(milestone.due_date)}
                         </span>
-                        {isOverdue(milestone.dueDate) && (
+                        {isOverdue(milestone.due_date) && (
                           <span className="overdue-badge">Overdue</span>
                         )}
                       </div>
@@ -230,7 +238,8 @@ function EditMilestoneForm({ milestone, onSave, onCancel }) {
     defaultValues: {
       title: milestone.title,
       description: milestone.description || '',
-      dueDate: milestone.dueDate ? milestone.dueDate.split('T')[0] : ''
+      dueDate: milestone.due_date ? milestone.due_date.split('T')[0] : '',
+      status: milestone.status || 'open'
     }
   });
 
@@ -269,6 +278,14 @@ function EditMilestoneForm({ milestone, onSave, onCancel }) {
           type="date"
           {...register('dueDate')}
         />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="status">Status</label>
+        <select {...register('status')}>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+        </select>
       </div>
 
       <div className="form-actions">
